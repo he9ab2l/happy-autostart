@@ -1,0 +1,18 @@
+[Unit]
+Description=Happy Coder Daemon (%i)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=%i
+EnvironmentFile=-/etc/happy-autostart/%i.env
+WorkingDirectory=/
+ExecStart=/usr/local/bin/happy-daemon-ensure
+ExecStop=/usr/local/bin/happy daemon stop
+RemainAfterExit=yes
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
