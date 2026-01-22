@@ -31,6 +31,31 @@ systemctl status happy-claude@ubuntu
 systemctl status happy-codex@ubuntu
 ```
 
+## Common workflows
+
+### Start/stop without changing autostart
+
+```
+systemctl start happy-daemon@ubuntu happy-claude@ubuntu happy-codex@ubuntu
+systemctl stop  happy-daemon@ubuntu happy-claude@ubuntu happy-codex@ubuntu
+```
+
+### Daemon-only (no default sessions)
+
+```
+systemctl disable --now happy-claude@ubuntu happy-codex@ubuntu
+systemctl enable --now happy-daemon@ubuntu
+```
+
+### One user only (recommended)
+
+If you enable both root and ubuntu, you will get **two Claude + two Codex** sessions.
+To keep it minimal, enable just one user:
+
+```
+USERS="ubuntu" ./install.sh
+```
+
 ## Uninstall (disable autostart)
 
 ```
@@ -47,6 +72,7 @@ USERS="ubuntu root" bash -c '
 - Requires `happy` installed at `/usr/local/bin/happy` and `happy-daemon-ensure` at `/usr/local/bin/happy-daemon-ensure`.
 - The units are template-based, so no per-user unit files are duplicated.
 - To add another user, just rerun `install.sh` with that user in `USERS`.
+- If you want non-interactive startup for Claude Code, configure permissions in each user's `.claude/settings.json`.
 
 ## Files
 
